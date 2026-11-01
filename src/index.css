@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+@theme {
+  --color-maroon: #681C32;
+  --color-maroon-dark: #4F1325;
+  --color-maroon-light: #7E223D;
+  --color-maroon-50: #FDF6F8;
+  --color-maroon-100: #F9E8ED;
+  --color-maroon-200: #F2CBD5;
+  --color-maroon-700: #7E223D;
+  --color-maroon-800: #681C32;
+  --color-maroon-900: #501426;
+  --color-maroon-950: #380C19;
+
+  --color-gold: #B99A55;
+  --color-gold-light: #D4BD84;
+  --color-gold-dark: #8F743A;
+  --color-gold-50: #FDFBF6;
+  --color-gold-100: #F9F4E8;
+  --color-gold-200: #EFE2C5;
+  --color-gold-600: #B99A55;
+  --color-gold-700: #9E8141;
+
+  --color-charcoal: #263238;
+  --color-charcoal-muted: #546E7A;
+  --color-charcoal-light: #78909C;
+
+  --color-surface-grey: #F4F5F7;
+}
+
+@layer base {
+  :root {
+    --merishaw-maroon: #681C32;
+    --merishaw-maroon-dark: #4F1325;
+    --merishaw-gold: #B99A55;
+    --merishaw-charcoal: #263238;
+    --merishaw-light-grey: #F4F5F7;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #263238;
+    background-color: #F4F5F7;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  code, pre, .font-mono {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
