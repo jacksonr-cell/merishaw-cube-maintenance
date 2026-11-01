@@ -38,12 +38,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onBack, onLoginSuccess }) 
     }
   };
 
-  const handleQuickSelect = (id: string, pass: string) => {
-    setIdentifier(id);
-    setPassword(pass);
-    setError(null);
-  };
-
   const handleRecover = async (e: React.FormEvent) => {
     e.preventDefault();
     setRecoveryLoading(true);
@@ -168,48 +162,15 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onBack, onLoginSuccess }) 
             </button>
           </form>
 
-          {/* Quick Demo Credentials Switcher */}
-          <div className="pt-4 border-t border-slate-200 space-y-2">
-            <span className="text-[11px] font-bold text-[#546E7A] block uppercase tracking-wide">
-              Quick 1-Click Evaluation Accounts
-            </span>
-            <div className="grid grid-cols-2 gap-2 text-[11px]">
-              <button
-                type="button"
-                onClick={() => handleQuickSelect('admin@merishaw.edu', 'Admin@Merishaw2026!')}
-                className="p-2 border border-[#F2CBD5] rounded-lg text-left bg-[#FDF6F8] hover:bg-[#F9E8ED] transition-colors"
-              >
-                <span className="font-bold text-[#681C32] block">Administrator</span>
-                <span className="text-[10px] text-[#546E7A]">Dr. Evelyn Mwangi</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => handleQuickSelect('alex.student@merishaw.edu', 'Student@Merishaw2026!')}
-                className="p-2 border border-slate-200 rounded-lg text-left bg-white hover:bg-slate-50 transition-colors"
-              >
-                <span className="font-bold text-[#B99A55] block">Student Resident</span>
-                <span className="text-[10px] text-[#546E7A]">Alex Kiprono (Cube 204-A)</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => handleQuickSelect('sarah.electrician@merishaw.edu', 'Staff@Merishaw2026!')}
-                className="p-2 border border-slate-200 rounded-lg text-left bg-white hover:bg-slate-50 transition-colors"
-              >
-                <span className="font-bold text-blue-800 block">Staff (Electrical)</span>
-                <span className="text-[10px] text-[#546E7A]">Sarah Muthoni</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => handleQuickSelect('john.staff@merishaw.edu', 'Staff@Merishaw2026!')}
-                className="p-2 border border-slate-200 rounded-lg text-left bg-white hover:bg-slate-50 transition-colors"
-              >
-                <span className="font-bold text-emerald-800 block">Staff (Plumbing)</span>
-                <span className="text-[10px] text-[#546E7A]">John Otieno</span>
-              </button>
+          {/* Institutional Security Notice */}
+          <div className="pt-4 border-t border-slate-200 text-center space-y-2">
+            <div className="flex items-center justify-center gap-1.5 text-[#546E7A] text-[11px] font-semibold">
+              <Shield className="w-3.5 h-3.5 text-[#681C32]" />
+              <span>Official Merishaw Institutional Access Only</span>
             </div>
+            <p className="text-[10px] text-slate-400 leading-relaxed max-w-xs mx-auto">
+              This system is strictly for authorized Merishaw students, facility staff, and administrators. All login attempts are authenticated, audited, and logged.
+            </p>
           </div>
         </div>
       </div>

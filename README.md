@@ -92,9 +92,9 @@ The **Merishaw Cube Maintenance System** provides a unified institutional platfo
 
 ---
 
-## 🔑 Demo Institutional Accounts
+## 🔑 Initial Institutional Accounts & Provisioning
 
-The database seeds automatically on first launch with predefined accounts for institutional testing:
+The database initializes with verified baseline institutional accounts so the system can be administered immediately upon first deployment:
 
 | Role | Email | Password | Access Level |
 | :--- | :--- | :--- | :--- |
@@ -104,7 +104,7 @@ The database seeds automatically on first launch with predefined accounts for in
 | **Student Resident** | `student.john@merishaw.edu` | `Student123!` | Mt. Meru Hall, Room 204, Cube 204-A |
 | **Student Resident** | `student.mary@merishaw.edu` | `Student123!` | Mt. Meru Hall, Room 204, Cube 204-B |
 
-*(Quick 1-click login buttons for each role are also available on the login page for rapid evaluation).*
+*Administrators can provision and deactivate accounts directly from the Administrator User Management screen.*
 
 ---
 

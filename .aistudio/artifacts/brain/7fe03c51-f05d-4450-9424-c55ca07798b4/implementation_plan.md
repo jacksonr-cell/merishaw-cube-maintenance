@@ -1,60 +1,60 @@
-# Implementation Plan: Embedded Cube Problem Key-In Section for Students
+# Implementation Plan: Production Hardening & Live Data Cleansing
 
 ## Overview
-Currently, students submit maintenance requests via a popup modal initiated by clicking "+ Report Maintenance Fault" or sidebar buttons. To make keying in problems regarding their cube as immediate, intuitive, and accessible as possible, we will add an **embedded "Key In Cube Problem" card directly on the Student Dashboard**. Per your preferences, students will be able to easily toggle between reporting an issue for their **assigned cube** (with their hall, room, and cube bunk pre-selected) or a **common facility / area** (washroom, corridor, study room, laundry).
+To ensure the Merishaw Cube Maintenance System operates strictly as a production-grade institutional system without any appearance or behavior of a demo:
+1. Remove all quick-login helper buttons and demo cards from the authentication screens, enforcing strict institutional login credentials.
+2. Retain the authentic Merishaw campus accommodation hierarchy (halls, blocks, rooms, and individual cube bunks) and fault categories while purging test tickets, work logs, and status history to a clean zero state.
+3. Verify that every statistic, counter, SLA percentage, and metric displayed across student, staff, and admin dashboards is dynamically computed from live database records.
 
 ---
 
 ## Proposed Changes
 
-### 1. New Component: `QuickCubeReportCard.tsx`
-Create a dedicated component at `src/components/student/QuickCubeReportCard.tsx`:
-- **Location Mode Selector**:
-  - **"My Assigned Cube" (Default)**: Automatically binds to student's assigned hall (e.g., Mount Meru Hall), room (e.g., Room 204), and cube bunk (e.g., Cube 204-A Window Left) with clear visual confirmation badge.
-  - **"Common Facility / Floor Area"**: Enables clean dropdown selection of institutional building, block/floor, room or shared facility (e.g. Common Bathroom, Floor Kitchenette, Study Room).
-- **Streamlined Fault Inputs**:
-  - Fault Category selector (Beds & Mattresses, Electrical & Plugs, Plumbing & Water, Doors & Locks, Windows & Glazing, Lighting & Bulbs, Desks & Storage).
-  - Quick affected item chips/dropdown based on category (e.g., "Bunk Bed Frame", "Mattress", "Locker Lock", "Wall Socket", "Study Lamp").
-  - Problem Summary (e.g., "Broken locker latch", "Flickering overhead cube light").
-  - Detailed description with placeholder guidance.
-  - Urgency level pill selector (Low, Medium, High, Emergency).
-  - Safety hazard checkbox indicator.
-- **Feedback & UX**:
-  - In-card loading spinner during API submission (`api.createTicket`).
-  - Success banner with generated institutional ticket reference number (e.g., `TCK-2026-XXXX`).
-  - Option to immediately view ticket details or file another report.
-  - Clear validation warnings before submit.
+### 1. Authentication Hardening (`src/components/auth/LoginPage.tsx`)
+- Completely remove the demo quick sign-in button panel and helper credentials grid.
+- Enforce strict institutional sign-in with:
+  - Institutional Email or Official Identifier Code (Student ID / Staff ID / Admin ID).
+  - Encrypted password field with secure toggle.
+  - Institutional security notice (*"Authorized Merishaw School Personnel and Enrolled Residents Only"*).
+  - Clear institutional IT / Accommodation Office support contact information.
 
-### 2. Integration into `StudentDashboard.tsx`
-Update `src/components/student/StudentDashboard.tsx`:
-- Embed the `QuickCubeReportCard` directly beneath the "Assigned Dormitory & Cube Details" card and above the KPI metrics.
-- Pass a callback `onTicketCreated` that automatically refreshes the student's recent tickets table and updates KPI metric badges.
-- Retain the top navigation button `+ Report Maintenance Fault` to preserve existing navigation flows.
+### 2. Live Database Cleansing & Zero Baseline (`src/server/db.ts`)
+- Retain all institutional structural schemas:
+  - **4 Residence Halls**: Mount Meru Hall, Mount Kilimanjaro Residence, Aberdare Hall, Mount Elgon House.
+  - **Floors, Blocks & Rooms**: Ground, First, Second, and Third floor wings.
+  - **Cube Units**: Cube A, Cube B, Cube C, Cube D per room with specific identifiers (Window Left, Window Right, Door Left, Door Right).
+  - **Fault Categories & SLAs**: 10 formal trades with institutional SLA response benchmarks (Beds & Mattresses, Electrical, Plumbing, Windows, Locks, Lighting, Desks, Sanitation, General).
+  - **Initial Administrative & Staff Accounts**: Pre-provisioned initial admin (`admin@merishaw.edu`) and designated maintenance heads for Carpentry, Electrical, and Plumbing so the facility team can manage the platform immediately upon launch.
+- **Purge Test Ticket Data to Zero**:
+  - Remove all pre-seeded sample tickets (`tickets` table starts at 0).
+  - Clear test status history, work logs, and ticket comments.
+  - Reset notification logs and audit logs to a clean initial state.
+  - Ensure all dashboard metrics (Total Tickets, Pending Triage, Active Repairs, Resolved) reflect 0 until real student residents submit real reports.
 
-### 3. Styling & Merishaw Branding Alignment
-- Styled in accordance with Merishaw school brand guidelines:
-  - Header badge and primary submit button: Primary Maroon (`#681C32`).
-  - Subtle accents and cube focus borders: Muted Gold (`#B99A55`).
-  - Card background: Clean White (`#FFFFFF`) with subtle border (`border-slate-200`) and shadow.
-  - Text typography: Charcoal (`#263238`) and muted slate (`#546E7A`).
+### 3. Documentation & Production Polish (`README.md`)
+- Update `README.md` to remove any "demo" framing.
+- Provide instructions for initial system administrator login, password updates, and deploying the platform to institutional servers.
 
 ---
 
 ## Verification Plan
 
-### Automated Validation
-1. **Compilation Check**:
-   - Run `compile_applet` to verify TypeScript types, Vite bundling, and component imports.
-2. **Linting Check**:
-   - Run `lint_applet` to confirm 0 ESLint warnings or syntax issues.
-3. **Integration & Security Tests**:
-   - Run `npm test` to ensure authorization, session tokens, and database migrations remain 100% passing.
+### Automated Testing
+1. **Compilation Check**: Run `compile_applet` to confirm 0 TypeScript or build issues.
+2. **Linting Check**: Run `lint_applet` to confirm 0 ESLint errors.
+3. **Automated Test Suite**: Run `npm test` to ensure all 5 integration and security tests pass.
+4. **Production Build**: Run `npm run build` to ensure production bundle compiles cleanly.
 
-### Manual & UI Testing
-1. **Student Dashboard Flow**:
-   - Sign in as student resident (`student.john@merishaw.edu`).
-   - Confirm the new "Key In Cube Problem" card is immediately visible on the main screen without clicking any modals.
-   - Verify that "My Assigned Cube" is selected by default with John's room and cube details displayed.
-   - Switch toggle to "Common Facility" and verify building/room cascades work properly.
-   - Submit a test ticket for the assigned cube (e.g., "Cube Bunk Study Lamp Not Turning On").
-   - Confirm success feedback message, verify the ticket appears at the top of the Recent Maintenance Requests table, and verify KPI counters increment.
+### Manual Verification
+1. Open login page and confirm that only the official institutional login form is present with no demo shortcuts.
+2. Sign in as Administrator and verify:
+   - Total Tickets: 0
+   - Pending Review: 0
+   - Active Repairs: 0
+   - Resolved: 0
+   - Tickets table: Empty state (*"No maintenance tickets recorded yet"*).
+3. Sign in as Student and verify:
+   - Assigned cube is correctly loaded.
+   - Total Reports: 0.
+   - Recent Maintenance Requests: 0.
+   - Key in a real ticket via the new embedded card and confirm counter updates from 0 to 1 with real database persistence.

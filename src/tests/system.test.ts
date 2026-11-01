@@ -209,14 +209,23 @@ test('End-to-End Maintenance Workflow Scenario', async (t) => {
 test('Authorization Enforcement: students cannot access or reassign tickets of other students', () => {
   const student1Id = 'usr_student_01';
   const student2Id = 'usr_student_02';
+  const testTicketId = `tkt_auth_test_${Date.now()}`;
 
-  // Ticket 3 belongs to student2
-  const ticket3 = db.prepare('SELECT * FROM tickets WHERE id = ?').get('tkt_03') as any;
-  assert.equal(ticket3.student_id, student2Id);
+  // Insert isolated test ticket for student 2
+  db.prepare(`
+    INSERT INTO tickets (
+      id, reference_no, student_id, cube_id, category_id, affected_item, severity, priority,
+      title, description, status, created_at, updated_at
+    ) VALUES (?, ?, ?, 'cb_07', 'cat_doors', 'Cube Lock', 'medium', 'medium', 'Test Private Ticket', 'Private issue', 'Submitted', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+  `).run(testTicketId, `MSH-TEST-${Date.now().toString().slice(-4)}`, student2Id);
+
+  // Verify ticket belongs to student 2
+  const ticket = db.prepare('SELECT * FROM tickets WHERE id = ?').get(testTicketId) as any;
+  assert.equal(ticket.student_id, student2Id);
 
   // Query scoped by student 1
   const student1Tickets = db.prepare('SELECT id FROM tickets WHERE student_id = ?').all(student1Id) as Array<{ id: string }>;
   const student1TicketIds = student1Tickets.map(t => t.id);
 
-  assert.ok(!student1TicketIds.includes('tkt_03'), 'Student 1 must not be able to retrieve Student 2 tickets');
+  assert.ok(!student1TicketIds.includes(testTicketId), 'Student 1 must not be able to retrieve Student 2 tickets');
 });
